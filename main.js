@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let ctx = document.getElementById("canvas").getContext("2d");
 
+    let screenHeight = 1080;
+    let screenWidth = 1840;
     
     
     let b = {x: 300, y: 0, w: 30, h: 30, vX: 0, vY: 0};
@@ -18,14 +20,17 @@ document.addEventListener("DOMContentLoaded", () => {
     
     document.addEventListener("click", () => {
 
-        b.vY -= 10;
+        if (b.vY > -26) {
+
+            b.vY -= 15;
+        }
     });
 
     setInterval(() => {
 
         ctx.clearRect(b.x,b.y,b.w,b.h);
 
-        if (b.vY < 1) {
+        if (b.vY < 2) {
             b.vY += gravity;
         }
         b.y += b.vY;
@@ -36,13 +41,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         for (let i = 0; i < obstacles.length; i++) {
             let obstacle = obstacles[i];
-            ctx.clearRect(obstacle.x, obstacle.y, 50, obstacle.h);
-            ctx.fillStyle = "brown";
+            ctx.clearRect(obstacle.x, obstacle.y, 80, obstacle.h);
+            ctx.fillStyle = "#32CD32";
             obstacle.x -= 1;
-            ctx.fillRect(obstacle.x, obstacle.y, 50, obstacle.h);
+            ctx.fillRect(obstacle.x, obstacle.y, 80, obstacle.h);
         }
 
-        if (counter > 1000) {
+        if (counter > 2400) {
             generateTopObject();
             generateBottomObject();
             counter = 0
@@ -66,12 +71,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 5);
 
     function generateTopObject() {
-        obstacles.push({x: 1920, y: 0, h: Math.max(Math.floor(Math.random() * 600), 100)})
+        obstacles.push({x: screenWidth, y: 0, h: Math.max(Math.floor(Math.random() * 400), 100 + Math.floor(Math.random() * 100))});
     }
 
     function generateBottomObject() {
-        let topleft = 1080 - Math.max(Math.floor(Math.random() * 600), 100);
-        obstacles.push({x: 1920, y: topleft, h: 1080 - topleft});
+        let topleft = screenHeight - Math.max(Math.floor(Math.random() * 400), 100 + Math.floor(Math.random() * 100));
+        obstacles.push({x: screenWidth, y: topleft, h: screenHeight + 400});
     }
 
 })
